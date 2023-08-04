@@ -1,0 +1,33 @@
+{
+ "Sorts": {
+  "Affordability Index": false,
+  "CO2 Emission Index": true,
+  "Climate Index": false,
+  "Cost of Living Index": true,
+  "Cost of Living Plus Rent Index": true,
+  "Crime Index": true,
+  "Exp Pollution Index": true,
+  "Groceries Index": true,
+  "Gross Rental Yield City Centre": true,
+  "Gross Rental Yield Outside of Centre": true,
+  "Health Care Exp. Index": false,
+  "Health Care Index": false,
+  "Inefficiency Index": true,
+  "Local Purchasing Power Index": false,
+  "Mortgage As A Percentage Of Income": true,
+  "Pollution Index": true,
+  "Price To Income Ratio": true,
+  "Price To Rent Ratio City Centre": true,
+  "Price To Rent Ratio Outside Of City Centre": true,
+  "Property Price to Income Ratio": true,
+  "Purchasing Power Index": false,
+  "Quality of Life Index": false,
+  "Rent Index": true,
+  "Restaurant Price Index": true,
+  "Safety Index": false,
+  "Time Exp. Index": true,
+  "Time Index (in minutes)": true,
+  "Traffic Commute Time Index": true,
+  "Traffic Index": true
+ }
+}
