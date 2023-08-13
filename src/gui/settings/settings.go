@@ -1,9 +1,11 @@
 package settings
 
 import (
-	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
+	"github.com/hashicorp/go-set"
+	"github.com/nikdissv-forever/numbeogo/gui/internal"
+	"github.com/nikdissv-forever/numbeogo/gui/resources"
 	"github.com/nikdissv-forever/numbeogo/internal/mutex"
 	"github.com/nikdissv-forever/numbeogo/recorder"
 	"sort"
@@ -12,12 +14,11 @@ import (
 const NoSelect = "Unselected"
 
 type Storage struct {
+	Countries     set.Set[string]
 	Title, Region string
 }
 
-var (
-	Settings = Storage{}
-)
+var Settings = Storage{}
 
 func getSelectionListFromMap(src map[string]string) []string {
 	mutex.Locker.Lock()
@@ -60,7 +61,7 @@ func getMapSelector(title string, bind *string, src map[string]string) (*widget.
 	return widget.NewLabel(title), selector
 }
 
-func GetSettingsPopup(canvas fyne.Canvas) *widget.PopUp {
+func GetSettingsPopup() *widget.PopUp {
 	titleLabel, titleSelector := getMapSelector("Year", &Settings.Title, recorder.Recorded.Titles)
 	regionLabel, regionSelector := getMapSelector("Region", &Settings.Region, recorder.Recorded.Regions)
 	h := func() {
@@ -68,8 +69,18 @@ func GetSettingsPopup(canvas fyne.Canvas) *widget.PopUp {
 		regionSelector.Options = getRegions()
 	}
 	recorder.Signal.AddHandler(&h)
-	return widget.NewPopUp(container.NewVBox(container.NewPadded(container.NewGridWithColumns(2,
-		titleLabel, regionLabel,
-		titleSelector, regionSelector,
-	))), canvas)
+	return widget.NewPopUp(container.NewPadded(container.NewGridWithColumns(2,
+		titleLabel, titleSelector,
+		regionLabel, container.NewHBox(regionSelector, setMyRegion(regionSelector)),
+	)), internal.MainWindow.Canvas())
+}
+
+func setMyRegion(selector *widget.Select) *widget.Button {
+	btn := widget.NewButtonWithIcon("", resources.MapMarker, func() {
+		if reg, err := getMyRegion(); err == nil {
+			selector.SetSelected(reg)
+		}
+	})
+	btn.Importance = widget.LowImportance
+	return btn
 }

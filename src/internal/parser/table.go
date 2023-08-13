@@ -24,13 +24,13 @@ func GetName(node *html.Node) string {
 	return web.GetText(nameCol[0])
 }
 
-func GetTableValues(node *html.Node) []float32 {
+func GetTableValues(node *html.Node) []float64 {
 	columns := consts.TableColumns.Select(node)
-	values := make([]float32, len(columns))
+	values := make([]float64, len(columns))
 	for i, column := range columns {
 		text := web.GetText(column)
 		if val, err := strconv.ParseFloat(text, 32); err == nil {
-			values[i] = float32(val)
+			values[i] = val
 		}
 	}
 	return values

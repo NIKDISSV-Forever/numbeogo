@@ -1,5 +1,9 @@
 package events
 
+import (
+	"github.com/nikdissv-forever/numbeogo/internal/mutex"
+)
+
 type Signaler struct {
 	Name     string
 	handlers []*func()
@@ -14,16 +18,25 @@ func (s *Signaler) String() string {
 }
 
 func (s *Signaler) Bell() {
-	newHandlers := make([]*func(), 0, len(s.handlers))
+	nulCount := 0
 	for _, h := range s.handlers {
-		if *h == nil {
-			continue
+		if (*h) == nil {
+			nulCount++
+		} else {
+			go (*h)()
 		}
-		newHandlers = append(newHandlers, h)
 	}
-	s.handlers = newHandlers
-	for _, h := range s.handlers {
-		go (*h)()
+	if nulCount > 0 {
+		mutex.Locker.Lock()
+		newHandlers := make([]*func(), 0, len(s.handlers)-nulCount)
+		for _, h := range s.handlers {
+			if *h == nil {
+				continue
+			}
+			newHandlers = append(newHandlers, h)
+		}
+		s.handlers = newHandlers
+		mutex.Locker.Unlock()
 	}
 }
 

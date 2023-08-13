@@ -9,7 +9,7 @@ type TableParams struct {
 	URL, Title, Region string
 }
 
-func GetPageTable(params TableParams) Table {
+func GetPageTable(params TableParams) *Table {
 	if params.Title != "" {
 		params.Title = strings.Join([]string{"&title=", params.Title}, "")
 	}
@@ -20,7 +20,7 @@ func GetPageTable(params TableParams) Table {
 		[]string{params.URL, "?displayColumn=-1", params.Title, params.Region}, "")
 	nodes, err := web.RequestNodes(params.URL)
 	if err != nil {
-		return Table{}
+		return &Table{}
 	}
 	return ParseTable(nodes)
 }

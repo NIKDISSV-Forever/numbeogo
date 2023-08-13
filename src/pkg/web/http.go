@@ -17,7 +17,6 @@ func RequestNodes(url string) (*html.Node, error) {
 	if err != nil {
 		return nil, err
 	}
-	//goland:noinspection GoUnhandledErrorResult
 	defer response.Body.Close()
 	return html.Parse(response.Body)
 }

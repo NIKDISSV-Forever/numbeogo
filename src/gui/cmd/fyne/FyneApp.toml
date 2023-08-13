@@ -1,8 +1,8 @@
 Website = "https://github.com/NIKDISSV-Forever"
 
 [Details]
-  Icon = "Icon.ico"
+  Icon = "Icon.png"
   Name = "Numbeo App"
   ID = "com.numbeo.app"
-  Version = "0.0.1"
-  Build = 12
+  Version = "0.0.2"
+  Build = 4

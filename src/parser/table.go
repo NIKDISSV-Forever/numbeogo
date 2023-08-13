@@ -9,26 +9,27 @@ import (
 
 type Country struct {
 	Name   string
-	Values []float32
+	Values []float64
 }
 
 type Table struct {
 	Headers       []string
-	CountryValues []*Country
+	CountryValues map[string][]float64
 }
 
-func ParseTable(node *html.Node) (parsed Table) {
-	recorder.UpdateTitlesAndRegions(node)
+func ParseTable(node *html.Node) *Table {
+	recorder.Recorded.UpdateTitlesAndRegions(node)
+	parsed := &Table{}
 	parsed.Headers = parser.ParseColumns(node)
-
 	rowsNodes := consts.TableRows.Select(node)
-	parsed.CountryValues = make([]*Country, len(rowsNodes))
-	for i, row := range rowsNodes {
+	parsed.CountryValues = make(map[string][]float64, len(rowsNodes))
+	for _, row := range rowsNodes {
 		name := parser.GetName(row)
 		if name == "" {
 			continue
 		}
-		parsed.CountryValues[i] = &Country{name, parser.GetTableValues(row)}
+		recorder.Recorded.AddCountry(name)
+		parsed.CountryValues[name] = parser.GetTableValues(row)
 	}
-	return
+	return parsed
 }
