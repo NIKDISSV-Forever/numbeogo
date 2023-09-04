@@ -27,15 +27,25 @@ type countryValue struct {
 	Categories []string
 }
 
+type limits struct {
+	start, end int
+}
+
 type ContentSetter struct {
 	Data   map[string]*numbeo.Table
 	show   []*countryValue
 	widget *fyne.Container
 	spacer *layout.Spacer
+	scroll *container.Scroll
+
+	data  []fyne.CanvasObject
+	pos   *fyne.Position
+	parts []limits
+	curs  int
 }
 
 func NewContentSetter(data map[string]*numbeo.Table) *ContentSetter {
-	return &ContentSetter{Data: data, show: make([]*countryValue, 0), spacer: &layout.Spacer{}}
+	return &ContentSetter{Data: data, show: make([]*countryValue, 0), spacer: &layout.Spacer{}, pos: &fyne.Position{}}
 }
 
 func (c *ContentSetter) sort(i int, j int) bool {
@@ -44,19 +54,21 @@ func (c *ContentSetter) sort(i int, j int) bool {
 
 func (c *ContentSetter) Resort() {
 	sort.Slice(c.show, c.sort)
+	c.updateWidgetContent()
 }
 
 func (c *ContentSetter) GetWidget() *container.Scroll {
 	if c.widget == nil {
 		c.widget = container.NewGridWithColumns(columns)
 	}
-	return container.NewScroll(c.widget)
-}
-
-func (c *ContentSetter) Refresh() {
-	c.UpdateData()
-	c.Resort()
-	c.UpdateWidgetContent()
+	if c.scroll == nil {
+		c.scroll = container.NewScroll(c.widget)
+		c.scroll.OnScrolled = func(position fyne.Position) {
+			c.pos = &position
+			c.UpdateWidgetContent()
+		}
+	}
+	return c.scroll
 }
 
 func (c *ContentSetter) requiredSizeCategory(headers []string) int {
@@ -94,7 +106,12 @@ func (c *ContentSetter) UpdateData() {
 			country.Categories = append(country.Categories, cat)
 		}
 	}
+	if cap(c.parts) < len(c.show) {
+		c.parts = make([]limits, len(c.show))
+	}
+	c.Resort()
 }
+
 func (c *ContentSetter) requiredSize() int {
 	sz := len(c.show)
 	for _, country := range c.show {
@@ -119,25 +136,27 @@ func (c *ContentSetter) requiredSize() int {
 }
 
 func (c *ContentSetter) makeCategory(headers []string, values []float64) {
-	c.widget.Objects = append(c.widget.Objects,
+	c.data = append(c.data,
 		c.newHeader(headers[0]), c.newValue(values[0]))
 	for hi := 1; hi < len(headers); hi++ {
-		c.widget.Objects = append(c.widget.Objects,
+		c.data = append(c.data,
 			c.spacer, c.spacer,
 			c.newHeader(headers[hi]), c.newValue(values[hi]))
 	}
 }
 
-func (c *ContentSetter) UpdateWidgetContent() {
+func (c *ContentSetter) updateWidgetContent() {
 	c.GetWidget()
-	if sz := c.requiredSize(); cap(c.widget.Objects) < sz {
-		c.widget.Objects = make([]fyne.CanvasObject, 0, sz)
+	if sz := c.requiredSize(); cap(c.data) < sz {
+		c.data = make([]fyne.CanvasObject, 0, sz)
 	}
-	c.widget.Objects = c.widget.Objects[:0]
-
+	c.data = c.data[:0]
+	c.parts = c.parts[:0]
+	defer c.widget.Refresh()
 	for i, country := range c.show {
 		name := country.Name
-		c.widget.Objects = append(c.widget.Objects, c.newTitle(i+1, name))
+		s := len(c.data)
+		c.data = append(c.data, c.newTitle(i+1, name))
 
 		var hi int
 		var category string
@@ -151,18 +170,45 @@ func (c *ContentSetter) UpdateWidgetContent() {
 		category = country.Categories[hi]
 		cat := c.newCategory(category)
 		cat.TextStyle.Italic = true
-		c.widget.Objects = append(c.widget.Objects, cat)
+		c.data = append(c.data, cat)
 		c.makeCategory(c.Data[category].Headers, values)
 		for _, category = range country.Categories[hi+1:] {
 			values = c.getValues(category, name)
 			if len(values) == 0 {
 				continue
 			}
-			c.widget.Objects = append(c.widget.Objects, c.spacer, c.newCategory(category))
+			c.data = append(c.data, c.spacer, c.newCategory(category))
 			c.makeCategory(c.Data[category].Headers, values)
 		}
+		end := len(c.data)
+		if end-s != 0 {
+			c.parts = append(c.parts, limits{s, len(c.data)})
+		}
 	}
-	println(len(c.widget.Objects), cap(c.widget.Objects))
+}
+
+const delta = 1
+
+func (c *ContentSetter) UpdateWidgetContent() {
+
+	c.widget.Objects = c.widget.Objects[:0]
+	fmt.Println(c.pos.Y)
+	if c.pos.Y <= 10 && c.curs != 0 {
+		c.curs--
+	}
+	if c.pos.Y >= c.scroll.Size().Height-10 && c.curs < len(c.parts)-1 {
+		c.curs++
+	}
+	e := c.curs + 4
+	if e >= len(c.parts) {
+		e = len(c.parts)
+		for e-c.curs == 1 && c.curs > 0 {
+			c.curs--
+		}
+	}
+	for _, part := range c.parts[c.curs:e] {
+		c.widget.Objects = append(c.widget.Objects, c.data[part.start:part.end]...)
+	}
 	c.widget.Refresh()
 }
 
@@ -179,7 +225,7 @@ func (c *ContentSetter) newHeader(header string) fyne.CanvasObject {
 	var button *widget.Button
 	button = widget.NewButton(header, func() {
 		button.Importance = c.buttonImportance(sortRule.Switch(header))
-		c.Refresh()
+		c.Resort()
 	})
 	button.Importance = c.buttonImportance(sortRule.Get(header))
 	return button

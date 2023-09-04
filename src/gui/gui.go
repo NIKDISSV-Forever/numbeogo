@@ -16,12 +16,14 @@ func Run() {
 	internal.MainWindow.SetMainMenu(
 		fyne.NewMainMenu(fyne.NewMenu("Settings",
 			fyne.NewMenuItem("Parameters", paramsPopup.Show),
-			settings.NewCountriesChoicer().GetChoiceCountriesMenuOption(func() { setter.Refresh() }))))
+			settings.NewCountriesChoicer().GetChoiceCountriesMenuOption(func() {
+				setter.UpdateData()
+				setter.UpdateWidgetContent()
+			}))))
 	internal.MainWindow.SetContent(setter.GetWidget())
 	handler := func() {
 		setter.Data = getData()
 		setter.UpdateData()
-		setter.Resort()
 		setter.UpdateWidgetContent()
 	}
 	settings.Signal.AddHandler(&handler)
