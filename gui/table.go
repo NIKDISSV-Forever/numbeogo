@@ -11,6 +11,7 @@ import (
 	"github.com/nikdissv-forever/numbeogo/gui/settings/preferences/countriesFilter"
 	"github.com/nikdissv-forever/numbeogo/gui/settings/preferences/sortRule"
 	"github.com/nikdissv-forever/numbeogo/gui/tables"
+	numbeo "github.com/nikdissv-forever/numbeogo/parser"
 	"golang.org/x/image/colornames"
 	"sort"
 )
