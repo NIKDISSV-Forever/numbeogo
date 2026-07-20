@@ -1,7 +1,6 @@
 module github.com/ndenissov/numbeogo
 
-go 1.22.5
-toolchain go1.24.1
+go 1.25.0
 
 require (
 	github.com/ericchiang/css v1.4.0
