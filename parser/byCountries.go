@@ -1,8 +1,8 @@
 package numbeo
 
 import (
-	"github.com/nikdissv-forever/numbeogo/internal/consts"
-	"github.com/nikdissv-forever/numbeogo/pkg/web"
+	"github.com/ndenissov/numbeogo/internal/consts"
+	"github.com/ndenissov/numbeogo/pkg/web"
 )
 
 type Category struct {

@@ -1,16 +1,17 @@
 package settings
 
 import (
+	"math"
+	"regexp"
+	"sort"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 	"github.com/hashicorp/go-set"
-	"github.com/nikdissv-forever/numbeogo/gui/internal"
-	"github.com/nikdissv-forever/numbeogo/gui/settings/preferences/countriesFilter"
-	"github.com/nikdissv-forever/numbeogo/recorder"
-	"math"
-	"regexp"
-	"sort"
+	"github.com/ndenissov/numbeogo/gui/internal"
+	"github.com/ndenissov/numbeogo/gui/settings/preferences/countriesFilter"
+	"github.com/ndenissov/numbeogo/recorder"
 )
 
 type CountriesChoicer struct {

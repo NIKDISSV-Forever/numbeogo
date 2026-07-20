@@ -1,7 +1,7 @@
 package numbeo
 
 import (
-	"github.com/nikdissv-forever/numbeogo/pkg/web"
+	"github.com/ndenissov/numbeogo/pkg/web"
 	"strings"
 )
 

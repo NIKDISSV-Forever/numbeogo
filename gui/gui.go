@@ -2,10 +2,10 @@ package guiNumbeo
 
 import (
 	"fyne.io/fyne/v2"
-	"github.com/nikdissv-forever/numbeogo/gui/internal"
-	"github.com/nikdissv-forever/numbeogo/gui/settings"
-	numbeo "github.com/nikdissv-forever/numbeogo/parser"
-	"github.com/nikdissv-forever/numbeogo/recorder"
+	"github.com/ndenissov/numbeogo/gui/internal"
+	"github.com/ndenissov/numbeogo/gui/settings"
+	numbeo "github.com/ndenissov/numbeogo/parser"
+	"github.com/ndenissov/numbeogo/recorder"
 	"sync"
 )
 

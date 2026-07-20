@@ -1,8 +1,8 @@
 package preferences
 
 import (
-	"github.com/nikdissv-forever/numbeogo/gui/internal"
-	"github.com/nikdissv-forever/numbeogo/pkg"
+	"github.com/ndenissov/numbeogo/gui/internal"
+	"github.com/ndenissov/numbeogo/pkg"
 )
 
 var Preferences = internal.RootApp.Preferences()

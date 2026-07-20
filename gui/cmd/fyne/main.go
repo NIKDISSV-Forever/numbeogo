@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/nikdissv-forever/numbeogo/gui"
+	"github.com/ndenissov/numbeogo/gui"
 )
 
 func main() {

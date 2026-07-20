@@ -1,7 +1,7 @@
 package countriesFilter
 
 import (
-	"github.com/nikdissv-forever/numbeogo/gui/settings/preferences"
+	"github.com/ndenissov/numbeogo/gui/settings/preferences"
 )
 
 const Prefix = "CountriesNames"

@@ -1,9 +1,9 @@
 package numbeo
 
 import (
-	"github.com/nikdissv-forever/numbeogo/internal/consts"
-	"github.com/nikdissv-forever/numbeogo/internal/parser"
-	"github.com/nikdissv-forever/numbeogo/recorder"
+	"github.com/ndenissov/numbeogo/internal/consts"
+	"github.com/ndenissov/numbeogo/internal/parser"
+	"github.com/ndenissov/numbeogo/recorder"
 	"golang.org/x/net/html"
 )
 

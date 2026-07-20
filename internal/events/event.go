@@ -1,7 +1,7 @@
 package events
 
 import (
-	"github.com/nikdissv-forever/numbeogo/internal/mutex"
+	"github.com/ndenissov/numbeogo/internal/mutex"
 )
 
 type Signaler struct {

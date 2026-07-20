@@ -1,8 +1,8 @@
 package parser
 
 import (
-	"github.com/nikdissv-forever/numbeogo/internal/consts"
-	"github.com/nikdissv-forever/numbeogo/pkg/web"
+	"github.com/ndenissov/numbeogo/internal/consts"
+	"github.com/ndenissov/numbeogo/pkg/web"
 	"golang.org/x/net/html"
 	"strconv"
 )

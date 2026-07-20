@@ -1,9 +1,9 @@
 package recorder
 
 import (
-	"github.com/nikdissv-forever/numbeogo/internal/consts"
-	"github.com/nikdissv-forever/numbeogo/internal/mutex"
-	"github.com/nikdissv-forever/numbeogo/pkg/web"
+	"github.com/ndenissov/numbeogo/internal/consts"
+	"github.com/ndenissov/numbeogo/internal/mutex"
+	"github.com/ndenissov/numbeogo/pkg/web"
 	"golang.org/x/net/html"
 	"net/url"
 )

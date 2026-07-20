@@ -1,6 +1,6 @@
 package sortRule
 
-import "github.com/nikdissv-forever/numbeogo/gui/settings/preferences"
+import "github.com/ndenissov/numbeogo/gui/settings/preferences"
 
 const Prefix = "sortsRule"
 

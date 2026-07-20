@@ -1,7 +1,7 @@
 package tables
 
 import (
-	"github.com/nikdissv-forever/numbeogo/gui/settings/preferences/sortRule"
+	"github.com/ndenissov/numbeogo/gui/settings/preferences/sortRule"
 )
 
 func SortFunction(headers []string, values []float64) float64 {
