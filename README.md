@@ -1,5 +1,11 @@
 # Numbeo GUI
 
+[![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/ndenissov/numbeogo)](https://github.com/ndenissov/numbeogo)
+[![Go Reference](https://pkg.go.dev/badge/github.com/ndenissov/numbeogo.svg)](https://pkg.go.dev/github.com/ndenissov/numbeogo)
+[![License](https://img.shields.io/github/license/ndenissov/numbeogo)](https://github.com/ndenissov/numbeogo/blob/main/LICENSE)
+[![GitHub downloads](https://img.shields.io/github/downloads/ndenissov/numbeogo/total)](https://github.com/ndenissov/numbeogo/releases)
+[![GitHub stars](https://img.shields.io/github/stars/ndenissov/numbeogo)](https://github.com/ndenissov/numbeogo/stargazers)
+
 A desktop graphical user interface (GUI) application written in Go using the Fyne toolkit. It allows users to fetch,
 filter, sort, and compare country-specific metrics and statistics from Numbeo.
 
